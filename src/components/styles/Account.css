@@ -1,0 +1,14 @@
+.user-options {
+    position: absolute;
+    right: 10px;
+    width: 50px;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+#log-out {
+    display: none;
+    position: absolute;
+    /* set some positioning for this element once you figure out how to you dumbass */
+}

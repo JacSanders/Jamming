@@ -1,0 +1,29 @@
+.song-list {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.song {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+}
+
+.toggle-button {
+    all: unset;
+    padding: 6px;
+    border-radius: 50%;
+    margin: 3px;
+    cursor: pointer;
+}
+
+.song:hover {
+    background-color: lightblue;
+}
+
+.toggle-button:hover {
+    background-color: gray;
+}
