@@ -17,14 +17,11 @@ const getAccessToken = async (code) => {
     redirect_uri: redirectUri
   };
 
-  console.log(headers, data);
-
   try {
     const response = await axios.post("https://accounts.spotify.com/api/token", new URLSearchParams(data), { headers });
     if (response.status !== 200) {
       return "There was an error in retrieving your access token to Spotify's Api. Please try agian in a moment."
     } else {
-      console.log(response);
       return response.data;
     }
   } catch (error) {

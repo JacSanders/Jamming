@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef} from "react";
 import SearchBar from "./components/SearchBar";
 import SearchResults from "./components/SearchResults";
 import Playlist from "./components/Playlist";
-import {getUser, getTracks} from "./SpotifyCall";
-import Account from "./components/Account"
+import {getTracks} from "./SpotifyCall";
+// import Account from "./components/Account"
 import './App.css';
 import {login, getToken} from "./Authorize";
 
@@ -14,7 +14,8 @@ function App() {
   const [playlist, setPlaylist] = useState([]);
   const [results, setResults] = useState([]);
   const [token, setToken] = useState(null);
-  const [currentUser, setCurrentUser] = useState('');
+  // const [currentUser, setCurrentUser] = useState('');
+  const logRef = useRef(0);
 
   const handleLogout = () => {
     window.location.href = 'http://localhost:3000'
@@ -23,12 +24,10 @@ function App() {
   let currentUrl = window.location.href;
 
   useEffect(() => {
-    console.log(currentUrl);
-    let isLogged = false; // Variable to track if handleLogin has been called
-  
+    console.log(logRef);
     const handleLogin = async () => {
-      if (!isLogged) { // Check if handleLogin has been called already
-        isLogged = true; // Set isLogged to true to prevent subsequent calls
+      if (logRef.current === 0) { // Check if handleLogin has been called already
+        logRef.current++;
         const tokenResponse = await getToken();
         setToken(tokenResponse);
       }
@@ -41,23 +40,13 @@ function App() {
     }
   }, [currentUrl]);
   
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     if (token) {
-  //       const userResponseData = await getUser(token);
-  //       setCurrentUser(userResponseData);
-  //     }
-  //   };
-  
-  //   fetchUserData();
-  // }, [token]);
   
   if (currentUrl.includes('logged')) {
     return (
       <div className="App">
         <header>
           <h1>JAMMIN</h1>
-          <Account currentUser={currentUser} />
+          {/* <Account currentUser={currentUser} /> */}
           <SearchBar search={search} setSearch={setSearch} setResults={setResults} getTracks={getTracks} token={token}/>
         </header>
         <main>
