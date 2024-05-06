@@ -19,7 +19,6 @@ const login = () => {
 
 const getToken = async () => {
     //Called when redirected from Spotify
-    console.log('this was run')
     const params = new URLSearchParams(window.location.search);
     if (params.has('code')) {
         const authCode = params.get('code');

@@ -2,8 +2,8 @@ import { useState, useEffect, useRef} from "react";
 import SearchBar from "./components/SearchBar";
 import SearchResults from "./components/SearchResults";
 import Playlist from "./components/Playlist";
-import {getTracks} from "./SpotifyCall";
-// import Account from "./components/Account"
+import {getTracks, getUser} from "./SpotifyCall";
+import Account from "./components/Account"
 import './App.css';
 import {login, getToken} from "./Authorize";
 
@@ -14,7 +14,7 @@ function App() {
   const [playlist, setPlaylist] = useState([]);
   const [results, setResults] = useState([]);
   const [token, setToken] = useState(null);
-  // const [currentUser, setCurrentUser] = useState('');
+  const [currentUser, setCurrentUser] = useState('');
   const logRef = useRef(0);
 
   const handleLogout = () => {
@@ -24,7 +24,6 @@ function App() {
   let currentUrl = window.location.href;
 
   useEffect(() => {
-    console.log(logRef);
     const handleLogin = async () => {
       if (logRef.current === 0) { // Check if handleLogin has been called already
         logRef.current++;
@@ -35,10 +34,19 @@ function App() {
   
     if (currentUrl.includes('logged')) {
       handleLogin();
-    } else {
-      return;
     }
   }, [currentUrl]);
+
+  useEffect(() => {
+    const handleNewUser = async () => {
+      const newUser = await getUser();
+      setCurrentUser(newUser);
+    }
+
+    if (token) {
+      handleNewUser();
+    }
+  }, [token])
   
   
   if (currentUrl.includes('logged')) {
@@ -46,7 +54,7 @@ function App() {
       <div className="App">
         <header>
           <h1>JAMMIN</h1>
-          {/* <Account currentUser={currentUser} /> */}
+          <Account currentUser={currentUser} />
           <SearchBar search={search} setSearch={setSearch} setResults={setResults} getTracks={getTracks} token={token}/>
         </header>
         <main>
